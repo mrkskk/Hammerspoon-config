@@ -17,7 +17,7 @@ hs.hotkey.bind({"ctrl", "alt", "cmd"}, "M", moveWindowToDisplay(2))
 positions = {
   maximized = hs.layout.maximized,
   centered = {x=0.15, y=0.15, w=0.7, h=0.7},
-
+  fullscreen = {x=0, y=0, w=2, h=1},
   leftthird = {x=0, y=0, w=0.333, h=1},
   middlethird = {x=0.3334, y=0, w=0.3334, h=1},
   rightthird = {x=0.666, y=0, w=0.3334, h=1},
@@ -25,12 +25,6 @@ positions = {
   betweenscreens = {x=0.666, y=0, w=0.666, h=1},
   twothirdsleft = {x=0, y=0, w=0.666, h=1},
   twothidsright= {x=0.3334, y=0, w=0.666, h=1},
-
-
- betweenscreens = {x=0.666, y=0, w=0.666, h=1},
-  twothirdsleft = {x=0, y=0, w=0.666, h=1},
-  twothidsright= {x=0.3334, y=0, w=0.666, h=1},
-
 
   left50 = hs.layout.left50,
   left75 = hs.layout.left75,
@@ -54,19 +48,19 @@ function bindKey(key, fn)
 end
 
 grid = {
-  {key="q", units={positions.leftthird, positions.left50, positions.left66, }},
-  {key="w", units={positions.middlethird, positions.left66, positions.right66}},
-  {key="e", units={positions.rightthird, positions.right50, positions.right66,}},
-
+  --{key="q", units={positions.leftthird, positions.left50, positions.left66, }},
+  --{key="w", units={positions.middlethird, positions.left66, positions.right66}},
+  --{key="e", units={positions.rightthird, positions.right50, positions.right66,}},
+ -- {key="f", units={positions.maximized, positions.upper50, positions.lower50}},
   --{key="h", units={positions.twothirdsleft}},
   --{key="j", units={positions.betweenscreens}},
   --{key="k", units={positions.twothidsright}},
 
- {key="x", units={positions.right66}},
- {key="z", units={positions.left66}},
+ --{key="x", units={positions.right66}},
+ --{key="z", units={positions.left66}},
 
-  {key="r", units={positions.left50, positions.lower50Left50, positions.upper50Left50, positions.upper50, positions.lower50}}, -- virker IKKE på sekundære skærm?
-  {key="t", units={positions.right50, positions.lower50Right50, positions.upper50Right50, positions.upper50, positions.lower50}}, -- virker IKKE på sekundære skærm?
+  -- {key="r", units={positions.left50, positions.lower50Left50, positions.upper50Left50, positions.upper50, positions.lower50}}, -- virker IKKE på sekundære skærm?
+  -- {key="t", units={positions.right50, positions.lower50Right50, positions.upper50Right50, positions.upper50, positions.lower50}}, -- virker IKKE på sekundære skærm?
 
 }
 
@@ -91,6 +85,8 @@ hs.fnutils.each(grid, function(entry)
 end)
 
 
+--Ved at bruge demme kode istedet for grid kan man placere direkte på ve og hø skærm uden at bruge genvejene til at skifte skærm først: hyper n og hyper m
+----------
 --to trejdedel venstre
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "a", function()
   local win = hs.window.focusedWindow()
@@ -105,7 +101,7 @@ local screen = leftScreen
   win:setFrame(f)
 end)
 
-
+----------
 --to trejdedel midt
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "s", function()
   local win = hs.window.focusedWindow()
@@ -120,7 +116,7 @@ local screen = leftScreen
   win:setFrame(f)
 end)
 
-
+----------
 --to trejdedel højre
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "d", function()
   local win = hs.window.focusedWindow()
@@ -135,19 +131,150 @@ local screen = rightScreen
   win:setFrame(f)
 end)
 ----------
+--en trejdedel venstre - leftScreen
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "q", function()
+  local win = hs.window.focusedWindow()
+  local f = win:frame()
+local screen = leftScreen
+  local max = screen:frame()
+
+  f.x = max.x
+  f.y = max.y
+  f.w = max.w /3
+  f.h = max.h
+  win:setFrame(f)
+end)
+----------
+--en trejdedel midt - leftScreen
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "w", function()
+  local win = hs.window.focusedWindow()
+  local f = win:frame()
+local screen = leftScreen
+  local max = screen:frame()
+
+  f.x = max.x + (max.w *0.333)
+  f.y = max.y
+  f.w = max.w /3
+  f.h = max.h
+  win:setFrame(f)
+end)
+----------
+--en trejdedel højre - leftScreen
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "e", function()
+  local win = hs.window.focusedWindow()
+  local f = win:frame()
+local screen = leftScreen
+  local max = screen:frame()
+
+  f.x = max.x + (max.w *0.666)
+  f.y = max.y
+  f.w = max.w /3
+  f.h = max.h
+  win:setFrame(f)
+end)
 ----------
 ----------
+----------
+--en trejdedel venstre - rightScreen
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "i", function()
+  local win = hs.window.focusedWindow()
+  local f = win:frame()
+local screen = rightScreen
+  local max = screen:frame()
 
+  f.x = max.x
+  f.y = max.y
+  f.w = max.w /3
+  f.h = max.h
+  win:setFrame(f)
+end)
+----------
+--en trejdedel midt - rightScreen
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "o", function()
+  local win = hs.window.focusedWindow()
+  local f = win:frame()
+local screen = rightScreen
+  local max = screen:frame()
 
+  f.x = max.x + (max.w *0.333)
+  f.y = max.y
+  f.w = max.w /3
+  f.h = max.h
+  win:setFrame(f)
+end)
+----------
+--en trejdedel højre - rightScreen
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "p", function()
+  local win = hs.window.focusedWindow()
+  local f = win:frame()
+local screen = rightScreen
+  local max = screen:frame()
+
+  f.x = max.x + (max.w *0.666)
+  f.y = max.y
+  f.w = max.w /3
+  f.h = max.h
+  win:setFrame(f)
+end)
+----------
+----------
+--en ve halvdel  - leftScreen
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "r", function()
+  local win = hs.window.focusedWindow()
+  local f = win:frame()
+local screen = leftScreen
+  local max = screen:frame()
+
+  f.x = max.x
+  f.y = max.y
+  f.w = max.w /2
+  f.h = max.h
+  win:setFrame(f)
+end)
+----------
+--en ve halvdel  - leftScreen
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "t", function()
+  local win = hs.window.focusedWindow()
+  local f = win:frame()
+local screen = leftScreen
+  local max = screen:frame()
+
+  f.x = max.x + (max.w *0.5)
+  f.y = max.y
+  f.w = max.w /2
+  f.h = max.h
+  win:setFrame(f)
+end)
+----------
+--en ve halvdel  - rightScreen
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "y", function()
+  local win = hs.window.focusedWindow()
+  local f = win:frame()
+local screen = rightScreen
+  local max = screen:frame()
+
+  f.x = max.x
+  f.y = max.y
+  f.w = max.w /2
+  f.h = max.h
+  win:setFrame(f)
+end)
+----------
+--en ve halvdel  - rightScreen
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "u", function()
+  local win = hs.window.focusedWindow()
+  local f = win:frame()
+local screen = rightScreen
+  local max = screen:frame()
+
+  f.x = max.x + (max.w *0.5)
+  f.y = max.y
+  f.w = max.w /2
+  f.h = max.h
+  win:setFrame(f)
+end)
+----------
 --Åbne Chrome vinduer-----------------------------------------------------
-
-hs.hotkey.bind({"cmd", "alt", "ctrl"}, 'c', function() 
-   hs.application.open("Google Chrome", wait, waitForFirstWindow)
-   hs.eventtap.keyStroke({"cmd","alt", "ctrl"}, "N") --placerering venstreskærm
-   hs.eventtap.keyStroke({"cmd","alt", "ctrl"}, "q") --placerering leftthird
-   hs.eventtap.keyStroke({"cmd"}, "n")
-   hs.eventtap.keyStroke({"cmd","alt", "ctrl"}, "w") --placerering middlethird
- end)
 
 --hs.hotkey.bind({"cmd", "alt", "ctrl"}, 'v', function() 
   -- hs.application.open("Google Chrome", wait, waitForFirstWindow)
@@ -159,42 +286,36 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, 'c', function()
 --end)
 
 --layouts-------------------------------------------------------------------
- local fLayout = {
-    {"Google Chrome", nil, rightScreen,   positions.rightthird,   nil, nil},
-    --{"Google Chrome",  nil, leftscreen, positions.middlethird, nil, nil},
-    {"Finder",       nil, rightScreen,  positions.middlethird, nil, nil},
-    {"Skim",        nil, leftScreen, positions.right50,   nil, nil},
-    {"WorkFlowy", nil, rightScreen,  positions.leftthird,   nil, nil}, 
-    {"Dynalist", nil, rightScreen,  positions.leftthird,   nil, nil}, 
-    {"Sublime Text", nil, rightScreen,   positions.middlethird,   nil, nil},
-    {"Zotero", nil, leftScreen,   positions.left50,   nil, nil},  
-    {"Mindnode", nil, rightScreen,   hs.layout.right75,   nil, nil},  
-    {"Spotify",       nil, rightScreen,  positions.rightthird, nil, nil},
-    {"Calibre", nil, leftScreen,   positions.left50,   nil, nil},  
-    {"Terminal", nil, leftScreen,   positions.left50,   nil, nil},  
-    {"Bitwarden", nil, rightScreen,   positions.rightthird,   nil, nil},  
-  }
- hs.hotkey.bind({"cmd", "alt", "ctrl"}, "f", function()
-  hs.layout.apply(fLayout)
-end) 
-
-
-local bLayout = {
-{"Calibre", nil, leftScreen,   hs.layout.left50,   nil, nil},
-{"Skim",  nil, leftScreen,  positions.right50,    nil, nil},
-{"Books",       nil, rightScreen,  positions.left50, nil, nil},
-{"Google Chrome", nil, rightScreen,   positions.right50,   nil, nil},
-
-}
-hs.hotkey.bind({"cmd", "alt", "ctrl"}, "b", function()
-  hs.layout.apply(bLayout)
-end)
 
 local gLayout = {
-{"Calendar", nil, rightScreen,   hs.layout.right50,   nil, nil},
-{"Microsoft Outlook",  nil, rightScreen,  hs.layout.left50,    nil, nil},
-{"Facebook Messenger",  nil, leftScreene,  positions.lefthird,    nil, nil},
-{"Finder",       nil, leftScreen,  positions.middlethird, nil, nil},
+--rightScreen
+  --fullscreen
+    {"Obsidian", nil, rightScreen,   hs.layout.fullscreen,   nil, nil},
+  --left50
+    {"Sublime Text", nil, rightScreen,   hs.layout.left50,   nil, nil},
+    {"Microsoft Word", nil, rightScreen,   hs.layout.left50,   nil, nil},
+  --right50
+    {"Books",   nil, rightScreen,  positions.right50, nil, nil},
+  --leftthird
+    {"Spotify", nil, rightScreen,   hs.layout.leftthird,   nil, nil},
+  --middlethird
+    {"iterm", nil, rightScreen,   hs.layout.middlethird,   nil, nil},
+  --rightthird
+    {"Facebook Messenger",  nil, rightScreen,  positions.rightthird,    nil, nil},
+--leftScreen
+  --left50
+    {"Google Chrome",  nil, leftScreen,  hs.layout.left50,    nil, nil},
+    {"Calibre", nil, leftScreen,   hs.layout.left50,   nil, nil},
+    {"Zotero",  nil, leftScreen,  positions.left50,    nil, nil},
+    {"Signal",  nil, leftScreen,  positions.left50,    nil, nil},
+  --right50
+    {"Skim",       nil, leftScreen,  positions.right50, nil, nil},
+    {"Google Chrome",  nil, leftScreen,  hs.layout.right50,    nil, nil},
+    {"Outlook",  nil, leftScreen,  positions.right50,    nil, nil},
+    {"Discord",  nil, leftScreen,  positions.right50,    nil, nil},
+  --leftthird
+  --middlethird
+  --rightthird
 }
 hs.hotkey.bind({"cmd", "alt", "ctrl"}, "g", function()
   hs.layout.apply(gLayout)
@@ -203,7 +324,8 @@ end)
 
 --Focus window----------------------------------------------------------------
 local hyper = {"cmd", "alt", "ctrl"}
-hs.hotkey.bind(hyper, 'I', function()
+
+hs.hotkey.bind(hyper, 'k', function()
     if hs.window.focusedWindow() then
         hs.window.focusedWindow():focusWindowNorth()
     else
@@ -211,7 +333,7 @@ hs.hotkey.bind(hyper, 'I', function()
     end
 end)
 
-hs.hotkey.bind(hyper, 'k', function()
+hs.hotkey.bind(hyper, ',', function()
     if hs.window.focusedWindow() then
         hs.window.focusedWindow():focusWindowSouth()
     else
@@ -235,9 +357,13 @@ hs.hotkey.bind(hyper, 'j', function()
     end
 end)
 
+
+-------------------
+-----Reload config
+-------------------
 hs.loadSpoon("ReloadConfiguration")
 spoon.ReloadConfiguration:start()
-
+hs.alert.show("Config loaded")
 -------------------
 -------------------
 -------------------
