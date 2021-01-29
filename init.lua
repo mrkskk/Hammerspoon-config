@@ -1,7 +1,23 @@
+
+-- Hammerspoon window management shortcuts
+--  ,------------------------------------------.                            ,----------------------------+------+--------.
+--    ____,   1/6 ,  2/6  , 3/6 ,  1/4,   2/4,                                3/4,   4/4,    4/6,   5/6,   6/6,   ____  ,    
+--  |--------+-----+------+------+------+------|                            |------+------+------+-------+------+--------|
+--   ____ ,   1/3 ,  2/3  , 3/3, fullscr,Layout,                              ____, Focu_l, Focu_u, Focu_r,____ , ____     
+--  |--------+-----+------+------+------+------+------+------.,------+------+------+------+------+-------+------+--------|
+--     ____ ,   ____, ____,  ____,  ____,  ____,  ____,  ____,   ____,  ____,LScn  ,  Rscn  Focu_d, ____,  ____,  ____,    
+--  `---------------------+------+------+------+------+------||------+------+------+------+------+-----------------------'
+--                         _____, _____, _____, _____, _____,  _____, _____, _____, _____, ____   
+--                        `----------------------------------'`----------------------------------'  
+
+
+-- Screen is Dell 49 inch. Running with displayport and hdmi cable as two external monitors
 hs.window.animationDuration = 0
   leftScreen = hs.screen.primaryScreen(0x600003f98880)
   rightScreen = leftScreen:toEast()
 
+
+-- Set shortcuts to move windows between displays Hyper+N for leftScreen and hyper+M for rightScreen
 function moveWindowToDisplay(d)
   return function()
     local displays = hs.screen.allScreens()
@@ -14,6 +30,7 @@ end
 hs.hotkey.bind({"ctrl", "alt", "cmd"}, "N", moveWindowToDisplay(1))
 hs.hotkey.bind({"ctrl", "alt", "cmd"}, "M", moveWindowToDisplay(2))
 
+-- Set positions that can be used in grid and layout
 positions = {
   maximized = hs.layout.maximized,
   centered = {x=0.15, y=0.15, w=0.7, h=0.7},
@@ -285,7 +302,7 @@ end)
    --hs.eventtap.keyStroke({"cmd","alt", "ctrl"}, "M") --placerering højreskærm
 --end)
 
---layouts-------------------------------------------------------------------
+--layouts. Snaps all windows in place with a hotkey. 
 
 local gLayout = {
 --rightScreen
@@ -322,7 +339,7 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "g", function()
 end)
 
 
---Focus window----------------------------------------------------------------
+--Focus window. Changes the focusedWindow with shortcuts
 local hyper = {"cmd", "alt", "ctrl"}
 
 hs.hotkey.bind(hyper, 'k', function()
@@ -359,7 +376,7 @@ end)
 
 
 -------------------
------Reload config
+-----Reload config - automaticly reload config after saving this file
 -------------------
 hs.loadSpoon("ReloadConfiguration")
 spoon.ReloadConfiguration:start()
@@ -367,6 +384,7 @@ hs.alert.show("Config loaded")
 -------------------
 -------------------
 -------------------
+--The below code changes window size with hyper + arrow keys. One press is half size. two press is thirds, three press is fourths
 function coords ()
   return hs.window.focusedWindow(), hs.window.focusedWindow():frame(),
          hs.window.focusedWindow():screen(), hs.window.focusedWindow():screen():frame()
@@ -436,3 +454,4 @@ hs.hotkey.bind({"cmd", "alt", "ctrl"}, "down", function()
 
   win:setFrame(wf, 0)
 end)
+
