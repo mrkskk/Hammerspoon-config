@@ -64,11 +64,12 @@ function bindKey(key, fn)
   hs.hotkey.bind({"cmd", "ctrl","alt"}, key, fn)
 end
 
+
 grid = {
   --{key="q", units={positions.leftthird, positions.left50, positions.left66, }},
   --{key="w", units={positions.middlethird, positions.left66, positions.right66}},
   --{key="e", units={positions.rightthird, positions.right50, positions.right66,}},
- -- {key="f", units={positions.maximized, positions.upper50, positions.lower50}},
+    {key="f", units={positions.maximized, positions.right75, positions.left75}},
   --{key="h", units={positions.twothirdsleft}},
   --{key="j", units={positions.betweenscreens}},
   --{key="k", units={positions.twothidsright}},
@@ -84,6 +85,7 @@ grid = {
 hs.fnutils.each(grid, function(entry)
   bindKey(entry.key, function()
     local units = entry.units
+  -- Jeg kan ikke få grids til at virke med begge skærme
     local screen = hs.screen.mainScreen()
     local window = hs.window.focusedWindow()
     local windowGeo = window:frame()
@@ -277,16 +279,16 @@ local screen = rightScreen
   win:setFrame(f)
 end)
 ----------
---en ve halvdel  - rightScreen
-hs.hotkey.bind({"cmd", "alt", "ctrl"}, "u", function()
+--maximized - BOTH screens
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "v", function()
   local win = hs.window.focusedWindow()
   local f = win:frame()
-local screen = rightScreen
+local screen = leftScreen
   local max = screen:frame()
 
-  f.x = max.x + (max.w *0.5)
+  f.x = max.x 
   f.y = max.y
-  f.w = max.w /2
+  f.w = max.w + (max.w)
   f.h = max.h
   win:setFrame(f)
 end)
