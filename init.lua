@@ -1,4 +1,6 @@
 
+
+
 -- Hammerspoon window management shortcuts
 --  ,------------------------------------------.                            ,----------------------------+------+--------.
 --    ____,   1/6 ,  2/6  , 3/6 ,  1/4,   2/4,                                3/4,   4/4,    4/6,   5/6,   6/6,   ____  ,    
@@ -25,6 +27,9 @@ function moveWindowToDisplay(d)
     win:moveToScreen(displays[d], false, true)
   end
 end
+
+
+
 
    local win = hs.window.focusedWindow()
 hs.hotkey.bind({"ctrl", "alt", "cmd"}, "N", moveWindowToDisplay(1))
@@ -69,7 +74,7 @@ grid = {
   --{key="q", units={positions.leftthird, positions.left50, positions.left66, }},
   --{key="w", units={positions.middlethird, positions.left66, positions.right66}},
   --{key="e", units={positions.rightthird, positions.right50, positions.right66,}},
-    {key="f", units={positions.maximized, positions.right75, positions.left75}},
+  --{key="f", units={positions.maximized, positions.right75, positions.left75}},
   --{key="h", units={positions.twothirdsleft}},
   --{key="j", units={positions.betweenscreens}},
   --{key="k", units={positions.twothidsright}},
@@ -279,8 +284,48 @@ local screen = rightScreen
   win:setFrame(f)
 end)
 ----------
+--en hø halvdel  - rightScreen
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "u", function()
+  local win = hs.window.focusedWindow()
+  local f = win:frame()
+local screen = rightScreen
+  local max = screen:frame()
+
+  f.x = max.x + (max.w *0.5)
+  f.y = max.y
+  f.w = max.w /2
+  f.h = max.h
+  win:setFrame(f)
+end)----------
+--maximized - left screen
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "g", function()
+  local win = hs.window.focusedWindow()
+  local f = win:frame()
+local screen = leftScreen
+  local max = screen:frame()
+
+  f.x = max.x 
+  f.y = max.y
+  f.w = max.w
+  f.h = max.h
+  win:setFrame(f)
+end)
+----------
+--maximized - right screen
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "h", function()
+  local win = hs.window.focusedWindow()
+  local f = win:frame()
+local screen = leftScreen
+  local max = screen:frame()
+
+  f.x = max.x + (max.w * 1)
+  f.y = max.y
+  f.w = max.w 
+  f.h = max.h
+  win:setFrame(f)
+end)
 --maximized - BOTH screens
-hs.hotkey.bind({"cmd", "alt", "ctrl"}, "v", function()
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "f", function()
   local win = hs.window.focusedWindow()
   local f = win:frame()
 local screen = leftScreen
@@ -292,6 +337,20 @@ local screen = leftScreen
   f.h = max.h
   win:setFrame(f)
 end)
+--midt - to fjeredele
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "m", function()
+  local win = hs.window.focusedWindow()
+  local f = win:frame()
+local screen = leftScreen
+  local max = screen:frame()
+
+  f.x = max.x  + (max.w *0.5)
+  f.y = max.y
+  f.w = max.w 
+  f.h = max.h
+  win:setFrame(f)
+end)
+----------
 ----------
 --Åbne Chrome vinduer-----------------------------------------------------
 
@@ -306,7 +365,7 @@ end)
 
 --layouts. Snaps all windows in place with a hotkey. 
 
-local gLayout = {
+local bLayout = {
 --rightScreen
   --fullscreen
     {"Obsidian", nil, rightScreen,   hs.layout.fullscreen,   nil, nil},
@@ -336,45 +395,107 @@ local gLayout = {
   --middlethird
   --rightthird
 }
-hs.hotkey.bind({"cmd", "alt", "ctrl"}, "g", function()
+hs.hotkey.bind({"cmd", "alt", "ctrl"}, "b", function()
   hs.layout.apply(gLayout)
 end)
 
 
 --Focus window. Changes the focusedWindow with shortcuts
-local hyper = {"cmd", "alt", "ctrl"}
+local hyper2 = {"cmd", "alt", "ctrl", "shift"}
 
-hs.hotkey.bind(hyper, 'k', function()
+hs.hotkey.bind(hyper2, 'o', function()
     if hs.window.focusedWindow() then
         hs.window.focusedWindow():focusWindowNorth()
+        -- Center mouse on Window after focus or switch occurs
+      currentWindow = hs.window.focusedWindow()
+      currentFrame = currentWindow:frame()
+      cfx = currentFrame.x + (currentFrame.w / 2)
+      cfy = currentFrame.y + (currentFrame.h / 2)
+      cfp = hs.geometry.point(cfx, cfy)
+      hs.mouse.setAbsolutePosition(cfp)
     else
         hs.alert.show("No active window")
     end
 end)
 
-hs.hotkey.bind(hyper, ',', function()
+hs.hotkey.bind(hyper2, 'e', function()
     if hs.window.focusedWindow() then
         hs.window.focusedWindow():focusWindowSouth()
+        -- Center mouse on Window after focus or switch occurs
+      currentWindow = hs.window.focusedWindow()
+      currentFrame = currentWindow:frame()
+      cfx = currentFrame.x + (currentFrame.w / 2)
+      cfy = currentFrame.y + (currentFrame.h / 2)
+      cfp = hs.geometry.point(cfx, cfy)
+      hs.mouse.setAbsolutePosition(cfp)
     else
         hs.alert.show("No active window")
     end
 end)
 
-hs.hotkey.bind(hyper, 'l', function()
+hs.hotkey.bind(hyper2, 'i', function()
     if hs.window.focusedWindow() then
-    hs.window.focusedWindow():focusWindowEast()
+    hs.window.focusedWindow():focusWindowEast() 
+    -- Center mouse on Window after focus or switch occurs
+      currentWindow = hs.window.focusedWindow()
+      currentFrame = currentWindow:frame()
+      cfx = currentFrame.x + (currentFrame.w / 2)
+      cfy = currentFrame.y + (currentFrame.h / 2)
+      cfp = hs.geometry.point(cfx, cfy)
+      hs.mouse.setAbsolutePosition(cfp)
     else
         hs.alert.show("No active window")
     end
 end)
 
-hs.hotkey.bind(hyper, 'j', function()
+hs.hotkey.bind(hyper2, 'a', function()
     if hs.window.focusedWindow() then
         hs.window.focusedWindow():focusWindowWest()
+     -- Center mouse on Window after focus or switch occurs
+      currentWindow = hs.window.focusedWindow()
+      currentFrame = currentWindow:frame()
+      cfx = currentFrame.x + (currentFrame.w / 2)
+      cfy = currentFrame.y + (currentFrame.h / 2)
+      cfp = hs.geometry.point(cfx, cfy)
+      hs.mouse.setAbsolutePosition(cfp)
     else
         hs.alert.show("No active window")
     end
 end)
+
+
+hs.hotkey.bind(hyper2, "p", function()
+    hs.window.highlight.ui.overlayColor = {0.2,0.05,0,0.25}
+    hs.window.highlight.start()
+end)
+
+hs.hotkey.bind(hyper2, ",", function()
+    hs.window.highlight.toggleIsolate(v)
+end)
+
+
+
+
+
+
+------
+------
+------Defeat Paste blocking
+------
+------
+hs.hotkey.bind({"cmd", "alt"}, "V", function() hs.eventtap.keyStrokes(hs.pasteboard.getContents()) end)
+
+wifiwatcher = hs.wifi.watcher.new(function ()
+    net = hs.wifi.currentNetwork()
+    if net==nil then
+        hs.notify.show("You lost Wi-Fi connection","","","")
+    else
+        hs.notify.show("Connected to Wi-Fi network","",net,"")
+    end
+end)
+wifiwatcher:start()
+
+
 
 
 -------------------
@@ -385,75 +506,4 @@ spoon.ReloadConfiguration:start()
 hs.alert.show("Config loaded")
 -------------------
 -------------------
--------------------
---The below code changes window size with hyper + arrow keys. One press is half size. two press is thirds, three press is fourths
-function coords ()
-  return hs.window.focusedWindow(), hs.window.focusedWindow():frame(),
-         hs.window.focusedWindow():screen(), hs.window.focusedWindow():screen():frame()
-end
-
-
-hs.hotkey.bind({"cmd", "alt", "ctrl"}, "left", function()
-
-  local win, wf, scr, sf = coords()
-
-  if wf.x <= sf.x and wf.w <= math.floor(sf.w/3) then
-    wf.x = sf.x
-    wf.w = math.floor(sf.w/4)
-  elseif wf.x <= sf.x and wf.w <= math.floor(sf.w/2) then
-    wf.x = sf.x
-    wf.w = math.floor(sf.w/3)
-  else
-    wf.x = sf.x
-    wf.w = math.floor(sf.w/2)
-  end
-  wf.y=sf.y
-  wf.h=sf.h
-  win:setFrame(wf, 0)
-end)
-
-
-hs.hotkey.bind({"cmd", "alt", "ctrl"}, "right", function()
-
-  local win, wf, scr, sf = coords()
-
-  if wf.x >= math.floor(sf.x + sf.w/3) and wf.w <= math.floor(sf.w/3) then
-    wf.w = sf.w/4
-    wf.x = math.floor(sf.x + 3 * sf.w/4)
-  elseif wf.x >= math.floor(sf.x + sf.w/2) and wf.w <= math.floor(sf.w/2) then
-    wf.w = sf.w/3
-    wf.x = math.floor(sf.x + 2 * sf.w/3)
-  else
-    wf.w = sf.w/2
-    wf.x = math.floor(sf.x + sf.w/2)
-  end
-  wf.y=sf.y
-  wf.h=sf.h
-  win:setFrame(wf, 0)
-end)
-
-
-hs.hotkey.bind({"cmd", "alt", "ctrl"}, "up", function()
-
-  local win, wf, scr, sf = coords()
-
-  win:setFrame(sf, 0)
-end)
-
-hs.hotkey.bind({"cmd", "alt", "ctrl"}, "down", function()
-
-  local win, wf, scr, sf = coords()
-
-  if wf.x ~= math.floor(sf.x + sf.w/3) and wf.w ~= math.floor(sf.w/3) then
-    wf.w = math.floor(sf.w/3)
-    wf.x = math.floor(sf.x + sf.w/3)
-  else
-    wf.w = sf.w/2
-    wf.x = math.floor(sf.x + sf.w/4)
-  end
-  wf.y=sf.y
-  wf.h=sf.h
-
-  win:setFrame(wf, 0)
-end)
-
+------------------- 
